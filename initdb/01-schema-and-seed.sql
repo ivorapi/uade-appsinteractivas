@@ -59,9 +59,33 @@ INSERT INTO usuarios (id,email,nombre,apellido,password_hash,fecha_nacimiento,se
   (2,'bruno.lopez@cinego.test','Bruno','Lopez','$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy','1995-09-02','M','ADMIN'),
   (4,'superadmin@cinego.com','Super','Admin','$2y$10$ECkvd9P5..F9ILIiEJTIYeCBpdSrn2od3TdeFc5gy.Won6u6szVeW',NULL,NULL,'SUPER_ADMIN');
 INSERT INTO salas (id,nombre) VALUES (1,'Sala A'),(2,'Sala Premium');
-INSERT INTO peliculas (id,titulo,duracion,clasificacion,sinopsis,poster_url) VALUES
-  (1,'El viaje de Luna',112,8.2,'Una aventura espacial para toda la familia.','https://example.test/posters/luna.jpg'),
-  (2,'Ciudad de sombras',126,7.6,'Un thriller ambientado en Buenos Aires.','https://example.test/posters/sombras.jpg');
+INSERT INTO peliculas
+  (id, titulo, duracion, clasificacion, sinopsis, poster_url)
+VALUES
+  (
+    1,
+    'La odisea',
+    150,
+    18,
+    'Una epopeya mitológica que sigue la historia de Odiseo y su largo viaje a casa, de 10 años de duración, tras la guerra de Troya.',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnYKwLld4fwjRJ0SdxGc_WPNnZm9zUhL8WxEB7_6QUmQ&s=10'
+  ),
+  (
+    2,
+    'Spiderman: brand new day',
+    105,
+    14,
+    'Tras el éxito mundial sin precedentes de Spider-Man: Sin regreso a casa, Spider-Man: Un nuevo día marca un capítulo completamente nuevo para Peter Parker y Spider-Man. Han pasado cuatro años desde los acontecimientos de Sin regreso a casa, y Peter ahora es un adulto que vive completamente solo, habiéndose borrado voluntariamente de la vida y los recuerdos de sus seres queridos.',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV4Ymhbyu4rSv8b7zluLsjzjkvZ4DtLXOjbp_OR-Rx2A&s=10'
+  ),
+  (
+    3,
+    'Dune: Part 3',
+    130,
+    18,
+    'Duna: Parte Tres se ambienta casi dos décadas después de que Paul Atreides tomó el control del Imperio. Convertido ahora en un despiadado Emperador, Paul deberá enfrentar las consecuencias de su reinado a medida que regresan viejos aliados, surgen aterradoras amenazas nuevas y la traición acecha en cada sombra.',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn6zu1u7Xudb3SG7pMkMZvIguVLOGU-JSs6Jd6FWZ9XA&s=10'
+  );
 INSERT INTO asientos (id,sala_id,fila,numero) VALUES
   (1,1,'A',1),(2,1,'A',2),(3,1,'B',1),(4,1,'B',2),(5,2,'A',1),(6,2,'A',2),(7,2,'B',1),(8,2,'B',2);
 INSERT INTO funciones (id,pelicula_id,sala_id,horario_inicio,precio) VALUES

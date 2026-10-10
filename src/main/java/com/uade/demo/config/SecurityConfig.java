@@ -1,5 +1,8 @@
 package com.uade.demo.config;
 
+import java.util.List;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,8 +51,26 @@ public class SecurityConfig {
     }
 
     @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(
+                List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(
+                List.of("Authorization", "Content-Type", "Accept"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -62,11 +83,13 @@ public class SecurityConfig {
                                 "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers("/api/usuarios/crear-admin").hasRole(Rol.SUPER_ADMIN.name())
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios").hasRole(Rol.SUPER_ADMIN.name())
-                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/usuarios/**").hasRole(Rol.SUPER_ADMIN.name())
-                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/usuarios/**").hasRole(Rol.SUPER_ADMIN.name())
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios")
+                        .hasRole(Rol.SUPER_ADMIN.name())
+                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/usuarios/**")
+                        .hasRole(Rol.SUPER_ADMIN.name())
+                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/usuarios/**")
+                        .hasRole(Rol.SUPER_ADMIN.name())
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
